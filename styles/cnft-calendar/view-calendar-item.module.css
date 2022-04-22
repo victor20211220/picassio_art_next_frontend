@@ -1,0 +1,151 @@
+/* upcoming nft drop */
+#viewCalendarItem {
+    margin: 27px 0 96px 0;
+}
+
+/* calendar Item */
+.calendarImg {
+    width: 100%;
+    box-shadow: 4px 5px 0px #000000;
+}
+
+.calendarItem {
+    background: #FFFFFF;
+    border: 2px solid #000000;
+    box-shadow: 4px 5px 0px #000000;
+}
+
+.calendarDetails {
+    padding: 42px 48px 32px 48px;
+}
+
+.calendarDetails h3 {
+    font-weight: 800;
+    font-size: 36px;
+    line-height: 42px;
+}
+
+.itemAmount {
+    position: absolute;
+    top: 24px;
+    right: 36px;
+    background: #FFFFFF;
+    border: 2px solid #000000;
+    box-sizing: border-box;
+    box-shadow: 2px 3px 0px #000000;
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 22px;
+    padding: 10px;
+    text-transform: uppercase;
+    z-index: 100;
+}
+
+.itemAmount img {
+    transform: rotate(90deg);
+    margin-right: 12px;
+    margin-left: 3px;
+}
+
+.calendarAttrs button:first-child {
+    margin-left: 0;
+}
+
+.calendarDescription {
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 20px;
+    margin: 20px 0px;
+}
+
+.socialStats>div {
+    margin-bottom: 12px;
+}
+
+.socialStats p {
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 18px;
+    color: #9E95A9;
+    margin: 6px 0px;
+}
+
+.socialStats img {
+    width: 20px;
+}
+
+.socialStats span {
+    margin-left: 6px;
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 22px;
+}
+
+/* footer part */
+.divider {
+    border-top: solid 1px black;
+    margin: 24px 0;
+}
+
+.footer span {
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 20px;
+}
+
+.footer h3 {
+    font-weight: 800;
+    font-size: 24px;
+    line-height: 30px;
+}
+
+.footer img {
+    width: 32px;
+    height: 32px;
+    margin: 0px 12px;
+}
+
+@media(max-width: 768px) {
+    
+    .itemAmount{
+        top: 12px;
+        right: 12px;
+    }
+    
+
+    .calendarDetails {
+        padding: 20px;
+    }
+
+    .calendarDetails h3 {
+        font-size: 32px;
+        line-height : 38px;
+    }
+    .footer{
+        text-align: center;
+    }
+
+    .footer .d-flex{
+        display: block !important;
+    }
+}
+
+@media(max-width: 576px) {
+    .container, .row>*{
+        padding: 0 !important;
+    }
+    .row{
+        margin: 0;
+    }
+    #viewCalendarItem {
+        margin: 0 0 -150px 0;
+    }
+    .calendarImg, .calendarItem{
+        box-shadow: none;
+        border: none;
+    }
+    .dFlex span{
+        display: block;
+        margin-bottom: 12px;
+    }
+}

@@ -1,0 +1,136 @@
+.socialButtons{
+    margin-left: 24px;
+}
+.leftArrow, .rightArrow {
+    position: absolute;
+    width: 48px;
+    height: 48px;
+    background: #FFFFFF;
+    border: 2px solid #000000;
+    box-sizing: border-box;
+    top: calc(50% - 24px);
+    z-index: 100;
+}
+
+.leftArrow {
+    left: -26px;
+}
+
+.rightArrow {
+    right: -24px;
+}
+
+/* marquee  */
+.marquee {
+    background: #000000;
+    overflow: hidden;
+    max-width: 100%;
+    padding: 24px 0 16px;
+    width: 100%;
+}
+
+.marquee span {
+    font-family: Cabinet Grotesk;
+    font-weight: 400;
+    font-size: 72px;
+    line-height: 86px;
+    color: #FFFFFF;
+    display: inline-block;
+    white-space: nowrap;
+    margin: 0;
+    /* animation: slide 10s linear infinite; */
+    /* text-shadow: 3798px 0px; */
+    animation: 30s linear 0s infinite normal none running marqueeme;
+}
+
+@keyframes marqueeme {
+    100% {
+        text-indent: -2000px;
+    }
+}
+
+.sectionTitle{
+    font-weight: 900;
+    font-size: 48px;
+    line-height: 52px;
+    text-align: center;
+    margin-bottom:12px;
+}
+
+.sectionDescription {
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 22px;
+    text-align: center;
+    margin-bottom: 64px;
+}
+
+.btnSmall{
+    border: 1px solid #000000;
+    box-sizing: border-box;
+    box-shadow: 2px 2px 0px #000000;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 18px;
+    margin-left: 8px;
+    text-transform: uppercase;
+    padding: 4px 8px;
+}
+
+.w100{
+    width: 100% !important;
+}
+.avtarImg{
+    width: 42px;
+    height: 42px;
+}
+.blockchainImage{
+    width: 20px;
+    height: 22px;
+}
+
+@media(max-width: 576px){
+    .leftArrow, .rightArrow {
+        bottom: -72px;
+        top: auto;
+        z-index: 100;
+    }
+    .leftArrow{
+        left: calc(50% - 60px) !important;
+    }
+    .rightArrow {
+        right: calc(50% - 60px) !important;
+    }
+    .marquee {
+        padding: 15px;
+    }
+    .marquee span {
+        font-weight: 400;
+        font-size: 24px;
+        line-height: 28px;
+        animation: 30s linear 0s infinite normal none running marqueeme;
+    }
+    @keyframes marqueeme {
+        100% {
+            text-indent: -1000px;
+        }
+    }
+
+    .sectionTitle{
+        font-size: 42px;
+        line-height: 42px;
+        margin-bottom: 10px;
+    }
+    
+    .sectionDescription {
+        margin-bottom: 30px;
+    }
+
+}
+
+
+
+.viewLink, .viewLink:hover {
+    color: black;
+    text-decoration: none;
+}

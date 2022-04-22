@@ -1,0 +1,85 @@
+.navbar, .fNavbar {
+    border-bottom: 0;
+    background: #F6EFFF !important;
+    padding: 18px 0 9px;
+}
+.fNavbar{
+    background: black !important;
+}
+.navbarBrand{
+    padding: 0 0 11px 0 !important;
+}
+.navbarNav {
+    margin-right: 0;
+    margin-left: auto;
+}
+.navLink {
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 24px;
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+    margin: 0px 0px;
+    color: black !important;
+}
+
+.navbarBtn{
+    border: 1px solid #000000;
+    box-sizing: border-box;
+    box-shadow: 2px 2px 0px #000000;
+    padding: 4px 6px 3px;
+    font-weight: 700;
+    font-size: 10px;
+    line-height: 11px;
+    margin: -9px auto 0;
+    display: block;
+    text-transform: uppercase;
+}
+
+.btnBig{
+    box-shadow: 4px 5px 0px #000000;
+    border: 2px solid #000000;
+    box-sizing: border-box;
+    margin-left:24px !important;
+}
+.navbarToggle, .navbarToggle:hover{
+    border: none !important;
+    box-shadow: none !important;
+}
+
+
+@media(min-width: 1200px){
+    .navbar .navbarNav .navLink{
+        padding: 12px 24px;
+    }
+}
+@media (max-width: 992px){
+    .navbar, .fNavbar {
+        padding: 12px 0 9px;
+        width: calc(100vw) !important;
+        margin: 0 !important;
+    }
+    .navbarBrand img{
+        width: 100px;
+    }
+    .navbarBrand{
+        padding: 0 0 3px 0 !important;
+    }
+    .navLink{
+        color: white !important;
+        text-align: center;
+    }
+    .navbarBtn{
+        display: none;
+    }
+    .socialButtons{
+        order: -1;
+    }
+    .navbarBrand{
+        order: -2;
+    }
+    .btnBig{
+        margin-left: 0 !important;
+    }
+}

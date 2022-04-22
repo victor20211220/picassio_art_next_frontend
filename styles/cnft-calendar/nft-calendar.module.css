@@ -1,0 +1,831 @@
+/* upcoming nft drop */
+#nftCalendar {
+    padding-top: 120px;
+    /* border-top: 2px solid black; */
+}
+
+.filters button, .filters input, .filters select {
+    box-shadow: 4px 5px 0px #000000;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 22px;
+}
+
+.periods {
+    display: flex;
+}
+
+.periods button {
+    background: #FFFFFF;
+    border-style: solid;
+    border-color: black;
+    border-width: 2px 0 2px 2px;
+    padding: 13px 10px;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 22px;
+}
+
+.selected {
+    background: #FF80F3 !important;
+}
+
+.leftArrow img, .rightArrow img {
+    width: 7.5px;
+}
+
+.rightArrow {
+    border-right: 2px solid black !important;
+}
+
+.searchInput {
+    appearance: none;
+    width: 100%;
+    height: 54px;
+    border-radius: 0;
+    outline: 0;
+    text-indent: 2em;
+    background: url("/images/search.svg") white no-repeat;
+    background-position: 10px;
+    border: 2px solid black;
+}
+
+.sortDropdown {
+    height: 54px;
+    outline: 0;
+    border: 2px solid black;
+    width: 100%;
+    padding: 10px;
+}
+
+/* calendar Item */
+.calendarItem {
+    margin: 15px 0;
+    background: #FFFFFF;
+    border: 2px solid #000000;
+    box-shadow: 4px 5px 0px #000000;
+}
+
+.calendarDetails {
+    padding: 28px 24px;
+    width: 80%;
+}
+
+.calendarImg {
+    width: 100%;
+    height: 100%;
+    border-right: 2px solid #000000;
+}
+
+.calendarDetails h3 {
+    font-weight: 800;
+    font-size: 36px;
+    line-height: 42px;
+}
+
+.itemAmount {
+    position: absolute;
+    top: 24px;
+    right: 36px;
+    background: #FFFFFF;
+    border: 2px solid #000000;
+    box-sizing: border-box;
+    box-shadow: 2px 3px 0px #000000;
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 22px;
+    padding: 10px;
+    text-transform: uppercase;
+    z-index: 100;
+}
+
+.itemAmount img {
+    transform: rotate(90deg);
+    margin-right: 12px;
+    margin-left: 3px;
+}
+
+.calendarAttrs button:first-child {
+    margin-left: 0;
+}
+
+.calendarDescription {
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 20px;
+    margin: 20px 0px;
+}
+
+.socialStats {
+    display: flex;
+}
+
+.socialStats>div {
+    margin-right: auto;
+}
+
+.socialStats>div>p {
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 18px;
+    color: #9E95A9;
+    margin: 6px 0px;
+}
+
+.socialStats>div>div {
+    display: flex;
+}
+
+.socialStats>div>div img {
+    width: 20px;
+}
+
+.socialStats>div>div span {
+    margin-left: 6px;
+    display: flex;
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 22px;
+}
+
+.loadMoreBtn {
+    font-weight: 500;
+    font-size: 22px;
+    line-height: 28px;
+    padding: 15px 49px 15px 50px;
+    background: #FFFFFF;
+    border: 2px solid #000000;
+    box-sizing: border-box;
+    box-shadow: 4px 5px 0px #000000;
+    margin: 50px auto;
+    display: block;
+}
+
+@media(max-width: 1200px) {
+    .periods button {
+        width: calc(100% / 9);
+    }
+
+    .searchInput, .sortDropdown {
+        margin-top: 20px;
+    }
+
+    .periods {
+        display: block;
+    }
+
+    .days {
+        width: calc(100% / 9 * 7);
+    }
+
+    .days button {
+        width: calc(100% / 7);
+    }
+}
+
+@media(max-width: 992px) {
+    .calendarImg {
+        border-bottom: 2px solid #000000;
+    }
+}
+
+@media(max-width: 768px) {
+    #nftCalendar {
+        padding-top: 50px;
+    }
+
+    .periods {
+        box-shadow: 4px 5px 0px #000000;
+        display: flex;
+    }
+
+    .periods button {
+        padding: 12px;
+        width: auto;
+        box-shadow: none;
+    }
+
+    .days {
+        width: calc(100% - 72px);
+    }
+
+    .days div {
+        overflow: scroll;
+        white-space: nowrap;
+    }
+
+    .leftArrow, .rightArrow {
+        width: 36px !important;
+    }
+
+    .calendarDetails {
+        padding: 24px;
+        width: 100%;
+    }
+
+    .socialStats {
+        display: block;
+    }
+
+    .socialStats>div {
+        width: 50%;
+        display: inline-block;
+    }
+
+    .loadMoreBtn {
+        margin: 15px auto;
+        padding: 12px 40px;
+    }
+
+}
+
+/* list Project */
+.listProject, .promoProject {
+    margin: 40px 0 24px 0;
+    background: #FFFFFF;
+    border: 2px solid #000000;
+    box-shadow: 4px 5px 0px #000000;
+    padding: 80px 20px;
+}
+
+.promoProject h1,
+.promoProject h2,
+.promoProject h3,
+.promoProject h4,
+.promoProject h5,
+.qrModal h1,
+.qrModal h2,
+.qrModal h3,
+.qrModal h4,
+.qrModal h5 {
+    color: #000;
+}
+
+.listProjectInput {
+    box-shadow: 4px 5px 0px #000000;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 22px;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    width: 100%;
+    border-radius: 0;
+    outline: 0;
+    border: 2px solid black;
+}
+
+.listProjectInput:focus {
+    box-shadow: 4px 5px 0px #000000;
+    border: 2px solid black;
+}
+
+input.listProjectInput, div.listProjectInput {
+    height: 54px;
+}
+
+input[type=file].listProjectInput {
+    line-height: 38px;
+}
+
+input[name=discord].listProjectInput,
+input[name=twitter].listProjectInput {
+    background: url("/images/discord.svg") white no-repeat;
+    background-position: 10px;
+    text-indent: 2em;
+}
+
+
+input[name=twitter].listProjectInput {
+    background-image: url("/images/twitter.svg");
+}
+
+div.listProjectInput>div {
+    min-height: 52px !important;
+}
+
+.listProject label {
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 18px;
+    /* identical to box height, or 129% */
+    color: #000000;
+}
+
+.listFormGroup {
+    margin-bottom: 1.5rem;
+}
+
+.alert {
+    background: rgba(255, 46, 109, 0.1);
+    padding: 15px;
+    border: none;
+}
+
+.alert li {
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 18px;
+    color: #FF2E6D;
+    list-style: none;
+    text-align: center;
+    margin-bottom: 5px;
+    letter-spacing: 1px;
+}
+
+.projectSubmit, .projectSubmit:hover, .projectSubmit:focus {
+    background: #A2FF7B;
+    border: 2px solid #000000;
+    color: #000000;
+    box-shadow: 4px 5px 0px #000000;
+}
+
+.projectSubmit {
+    box-sizing: border-box;
+    padding: 15px 50px;
+    font-weight: 800;
+    font-size: 24px;
+    line-height: 25px;
+    text-align: center;
+    border-radius: 0;
+    display: inherit;
+    margin: 25px auto 0 auto;
+}
+
+@media(max-width:767px) {
+    .listProject {
+        margin: 0 -12px -50px;
+        background: white;
+        border: none;
+        box-shadow: none;
+        padding: 50px 20px;
+    }
+
+    .listFormGroup {
+        margin-bottom: 1rem;
+    }
+
+    .listProject div[class^=col] label {
+        margin-top: 15px;
+    }
+}
+
+/* promo project */
+.promoProject {
+    padding: 0;
+    text-align: center;
+}
+
+.alertCongrates {
+    background: #A2FF7B;
+    border-bottom: 2px solid #000000;
+    padding: 32px;
+}
+
+.promoMiddle {
+    padding: 80px 0;
+    background: white;
+}
+
+.promoProject h4 {
+    font-weight: 800;
+    font-size: 24px;
+    line-height: 30px;
+    margin-bottom: 8px;
+}
+
+.promoProject p {
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 24px;
+    margin-bottom: 0;
+}
+
+.promoProject h2 {
+    font-weight: 900;
+    font-size: 48px;
+    line-height: 52px;
+    margin-bottom: 16px;
+}
+
+.promoProject form {
+    margin-top: 48px;
+}
+
+.positions {
+    margin-bottom: 100px;
+}
+
+.position {
+    border: 2px solid #000000;
+    box-sizing: border-box;
+    box-shadow: 7px 8px 0px #000000;
+    padding: 32px;
+    text-align: left;
+    cursor: pointer;
+}
+
+.position[class^=active] {
+    background: #FFB41F;
+    color: black;
+}
+
+.position h4 {
+    margin-bottom: 54px;
+}
+
+.promoProject small {
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 16px;
+    color: #000;
+}
+
+.promoProject h3 {
+    font-weight: 800;
+    font-size: 36px;
+    line-height: 42px;
+    margin-bottom: 0;
+}
+
+.position b {
+    font-weight: 800;
+}
+
+.promoMiddle form>h3 {
+    margin-bottom: 32px;
+}
+
+.promoMiddle form>img {
+    max-width: 80%;
+    margin-bottom: 37px;
+}
+
+.promoFormGroup {
+    text-align: left;
+    margin-bottom: 120px;
+}
+
+.dateRangePicker {}
+
+.dayDescription {
+    margin-top: 20px;
+}
+
+.dayDescription>span {
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 20px;
+    padding: 7px 16px;
+    margin-right: 12px;
+}
+
+.dayDescription>span:nth-child(1) {
+    background: #F0F0F0;
+    color: #A6A6A6;
+}
+
+.dayDescription>span:nth-child(2) {
+    background: #A2FF7B;
+}
+
+.dayDescription>span:nth-child(3) {
+    background: #FFB41F;
+}
+
+.promoBottom {
+    padding: 60px 0;
+    border-top: solid 2px black;
+    background: #F6EFFF;
+    text-align: left;
+}
+
+.promoBottom small {
+    margin-bottom: 6px;
+}
+
+.promoBottom h2 {
+    margin-bottom: 0;
+}
+
+.promoSubmit,
+.promoSubmit:hover,
+.promoSubmit:active
+{
+    background: #A2FF7B;
+    border: 2px solid #000000;
+    box-sizing: border-box;
+    box-shadow: 4px 5px 0px #000000 !important;
+    padding: 15px 50px;
+    font-weight: 800;
+    font-size: 24px;
+    line-height: 30px;
+    border-radius: 0;
+    color: #000;
+}
+.promoSubmit:hover,
+.promoSubmit:active {
+    outline: none !important;
+}
+/* modal */
+.qrModal [class^=modal-content] {
+    border-radius: 20px;
+}
+
+.qrModal [class^=modal-header] {
+    border-bottom: 0px;
+}
+
+.qrModal [class^=btn-close] {
+    padding: 0;
+    margin: 0;
+    width: 30px;
+    height: 30px;
+    background-size: 100% 100%;
+    background-image: url("../../public/images/close-circle.svg");
+    border: 0;
+    border-radius: 0.35rem;
+    opacity: 0.5;
+}
+
+.qrModal [class^=modal-body] {
+    padding-top: 0;
+    margin-bottom: 2rem !important;
+}
+
+.qrModal [class=row] {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+}
+
+.qrModal [class^=page-header-ui-title] {
+    padding-top: 0;
+    font-style: normal;
+    font-weight: 800;
+    font-size: 40px;
+    line-height: 95px;
+    text-align: center;
+}
+
+.qrModal label {
+    font-weight: bold;
+}
+
+.qrModal [readonly] {
+    background: white;
+}
+
+.qrModal h3 {
+    font-size: 20px;
+    line-height: 17px;
+}
+
+.qrModal ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.qrModal li {
+    font-weight: 500;
+    line-height: 32px;
+}
+
+.qrModal li span {
+    margin-left: 1rem;
+    font-size: 13px;
+}
+
+.qrModal [class^=reminder] {
+    background: #FF80F3;
+    padding: 21px 0;
+    box-shadow: 4px 5px 0px #000000, 0 0 0 2px black;
+    margin: 12px;
+}
+
+.qrModal [class^=reminder] p {
+    font-style: normal;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 26px;
+    margin-bottom: 0;
+    /* color: #FFFFFF; */
+}
+
+#qrCode {
+    /*width: 82% !important;*/
+    padding: 0;
+    margin: 0;
+    width: 380px;
+    height: 380px;
+    /* border: 3px solid #E7E8EA !important; */
+    box-shadow: 4px 5px 0px #000000, 0 0 0 2px black;
+}
+
+@media(max-width:1200px) {
+    #qrCode {
+        width: 320px;
+        height: 320px;
+        background-size: 100% 100%;
+    }
+
+    #qrCode {
+        margin: 0 auto;
+    }
+}
+@media(max-width:991px){
+    .position {
+        padding: 24px;
+        margin-bottom: 20px;
+    }
+}
+@media(max-width: 767px) {
+    .promoProject {
+        margin-bottom: -100px;
+    }
+
+    .promoProject h2 {
+        font-weight: 900;
+        font-size: 42px;
+        line-height: 42px;
+    }
+
+    .promoMiddle {
+        padding: 50px 0;
+    }
+
+    .promoProject form {
+        margin-top: 24px;
+    }
+
+    .positions {
+        margin-bottom: 30px;
+    }
+
+    .position h4 {
+        margin-bottom: 24px;
+    }
+
+    .promoProject h3 {
+        font-size: 32px;
+        line-height: 36px;
+    }
+
+    .promoMiddle form>h3 {
+        margin-bottom: 24px;
+    }
+
+    .promoFormGroup {
+        margin-bottom: 50px;
+    }
+
+    .promoBottom {
+        padding: 50px 0;
+    }
+
+    .promoBottom h2 {
+        font-weight: 800;
+        font-size: 36px;
+        line-height: 42px;
+    }
+
+    .promoSubmit {
+        padding: 15px 25px;
+    }
+
+    .qrModal [class^=reminder] {
+        margin: 0;
+        padding: 25px 20px;
+    }
+    
+    .promoBottom {
+        text-align: center;
+    }
+
+    .promoBottom [class^=col-md-4] {
+        margin-bottom: 24px;
+    }
+
+    .promoSubmit {
+        padding: 15px 50px;
+    }
+}
+
+.promoProject [class=react-datepicker] {
+    border: none;
+}
+
+.promoProject [class^=react-datepicker__month-container] {
+    font-family: 'Cabinet Grotesk';
+}
+
+.promoProject [class^=react-datepicker__header] {
+    border-bottom: 0;
+    background-color: white;
+    padding: 0;
+}
+
+.promoProject [class^=react-datepicker__day],
+.promoProject [class=react-datepicker__current-month] {
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 40px;
+}
+.promoProject [class^=react-datepicker__current-month],
+.promoProject [class^=react-datepicker__day-name]{
+    font-weight: 800;
+}
+
+@media(max-width: 600px) {
+    .promoProject {
+        margin: 0 0 -150px 0;
+        padding: 0;
+        border: none;
+        box-shadow: none;
+        background: transparent;
+    }
+
+    .alertCongrates {
+        border: 2px solid #000000;
+        margin: 0 -15px;
+    }
+
+    .promoMiddle, .promoBottom {
+        margin: 0 -15px;
+    }
+
+    .promoMiddle>div, .promoBottom>div {
+        margin: 0;
+    }
+
+    .promoMiddle form>img {
+        max-width: 100%;
+        margin-bottom: 24px;
+    }
+
+    .dayDescription {
+        display: block;
+    }
+
+    .dayDescription>span {
+        font-weight: 500;
+        font-size: 16px;
+        line-height: 20px;
+        padding: 7px 16px;
+        margin: 2px auto;
+        display: block;
+        max-width: max-content;
+    }
+
+
+    .qrModal [class^=page-header-ui-title] {
+        line-height: 50px;
+    }
+
+    .qrModal [class^=modal-body] {
+        padding: 0;
+    }
+
+    .qrModal textarea,
+    .qrModal input {
+        font-size: 14px;
+    }
+
+    .qrModal [class^=reminder] p {
+        font-weight: 400;
+        font-size: 16px;
+    }
+
+    .qrModal small {
+        font-weight: 800;
+        font-size: 12px;
+        line-height: 18px;
+        color: #153B74;
+    }
+
+    .qrModal [class^=row]>* {
+        padding-left: 5px;
+        padding-right: 5px;
+    }
+}
+
+/* list project update */
+.listProjectBottom {
+    background: #F6EFFF;
+    margin: -64px -20px -80px -20px;
+    padding: 90px 20px 80px 20px;
+    border-top:solid 2px black;
+}
+@media(max-width: 767px) {
+    .listProjectBottom {
+        padding: 90px 20px 0 20px;
+    }
+    .container{
+        max-width: 100%;
+    }
+}
+
+@media(max-width: 576px){
+    #sliders{
+        margin: 75px 0;
+    }
+}

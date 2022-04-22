@@ -1,0 +1,162 @@
+/* upcoming nft drop */
+#upComing{
+    padding: 64px 0;
+    background: #FFFFFF;
+    position: relative;
+}
+#upComing::after{
+    content: " ";
+    width: 100%;
+    background: #F6EFFF;
+    position: absolute;
+    border-top: solid 2px black;
+    height: calc(100%  - 482px);
+    top: 482px;
+}
+.container{
+    overflow: hidden;
+}
+.nftDropBlock {
+    width: 270px !important;
+    background: #FFFFFF;
+    box-sizing: border-box;
+    box-shadow: 4px 5px 0px #000000;
+    margin: 0 10px 10px 10px;
+    z-index: 100;
+}
+.nftDropImage{
+    position: relative;
+    border-width: 2px;
+    border-style: solid;
+}
+.nftDropImage img{
+    width: 100%;
+}
+.nftDropAttrs{
+    position: absolute;
+    bottom: 12px;
+    display: flex;
+}
+.btnSmall:first-child{
+    margin-left: 12px;
+}
+#upComingBottom{
+    position: relative;
+}
+.nftDropBlockDivider{
+    position: absolute;
+    border-top: 2px solid black;
+    height: 2px;
+    width: 100%;
+    top: -2px;
+}
+.nftDropBlockDetails{
+    background: #FFFFFF;
+    border-style: solid;
+    border-width: 0 2px 2px 2px;
+    padding: 16px 24px;
+}
+.nftDropBlockDetails h3{
+    font-weight: 800;
+    font-size: 20px;
+    line-height: 24px;
+}
+.nftDropCurrency{
+    display: flex;
+}
+.nftDropCurrency p{
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 22px;
+    margin: 0 0 0 6px;
+}
+.nftDropBlockDetails > p{
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 18px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    -webkit-box-orient: vertical;
+}
+.nftDropSocialStats{
+    display: flex;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 18px;
+}
+.nftDropSocialStats img{
+    width: 16px;
+    height: auto;
+}
+.nftDropSocialStats span:not(:last-child){
+    margin: 0 16px 0 6px;
+}
+
+.nftDropSocialStats span:last-child{
+    margin: 0 0 0 6px;
+}
+@media(max-width: 576px){
+    #upComing{
+        padding-top: 50px;
+    }
+    .nftDropBlock {
+        width: 240px !important;
+    }
+    #upComing::after{
+        height: calc(100%  - 434px);
+        top: 434px;
+    }
+}
+
+/* add description(header) part */
+
+#description {
+    margin-top: 5rem;
+    margin-bottom: 5rem;
+}
+
+#description h1 {
+    font-weight: 900;
+    font-size: 48px;
+    line-height: 52px;
+    margin-top: 64px;
+    text-align: center;
+}
+.promoBlock{
+    width: 100% !important;    
+    margin: 0 0 15px 0;
+    background: #FFFFFF;
+    border: 2px solid #000000;
+    box-shadow: 4px 5px 0px #000000;
+}
+@media(max-width: 992px){
+    #description h1 {
+        margin-top: 30px;
+    }
+    #description{
+        margin-top: 27px;
+        margin-bottom: 2rem;
+    }
+}
+
+@media(max-width: 576px){
+    #description h1 {
+        margin-top: 0;
+    }
+    #description{
+        margin-top: 27px;
+        margin-bottom: 50px;
+    }
+}
+/* sliders SECTION*/
+#sliders{
+    margin: 120px 0;
+}
+@media(max-width: 576px){
+    #sliders{
+        margin: 75px 0;
+    }
+}
