@@ -2,3 +2,5 @@ node_modules
 .next
 package-lock.json
 out
+next.config.js
+_next.config.js

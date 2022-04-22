@@ -110,12 +110,14 @@ export default function NftDrops() {
     }
   }
 
+  const upComingBorderColor = data.length > 0 ? "#000": "transparent";
   return <><section id={sectionStyle.upComing}>
     <Container className={sectionStyle.container}>
       <h2 className={pageStyle.sectionTitle}>Upcoming NFT drops</h2>
       <p className={pageStyle.sectionDescription}>Currently minting & upcoming NFT drops</p>
       {itemsArea}
     </Container>
+    <div className={sectionStyle.upComingAfter} style={{borderColor:upComingBorderColor}}></div>
   </section>
   </>
 }
