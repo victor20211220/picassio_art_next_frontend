@@ -106,12 +106,12 @@
 }
 
 @media(max-width: 768px) {
-    
-    .itemAmount{
+
+    .itemAmount {
         top: 12px;
         right: 12px;
     }
-    
+
 
     .calendarDetails {
         padding: 20px;
@@ -119,33 +119,62 @@
 
     .calendarDetails h3 {
         font-size: 32px;
-        line-height : 38px;
+        line-height: 38px;
     }
-    .footer{
+
+    .footer {
         text-align: center;
     }
 
-    .footer .d-flex{
+    .footer .d-flex {
         display: block !important;
     }
 }
 
 @media(max-width: 576px) {
-    .container, .row>*{
+    .container, .row>* {
         padding: 0 !important;
     }
-    .row{
+    
+    .pSM20{
+        padding: 20px !important;
+    }
+
+    .row {
         margin: 0;
     }
+
     #viewCalendarItem {
         margin: 0 0 -150px 0;
     }
-    .calendarImg, .calendarItem{
+
+    .calendarImg, .calendarItem {
         box-shadow: none;
         border: none;
     }
-    .dFlex span{
+
+    .dFlex span {
         display: block;
         margin-bottom: 12px;
     }
+
+    .onOneRow {
+        display: flex;
+    }
+    .onOneRow p{
+        width: 100px;
+    }
+}
+
+#viewCalendarItem a {
+    color: black;
+}
+.promoteButton{
+    padding: 12px 24px;
+    margin: 20px 0;
+    font-size: 20px;
+    font-weight: 700;
+    display: block;
+    text-decoration: none;
+    text-align: center;
 }

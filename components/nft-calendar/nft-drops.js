@@ -2,7 +2,6 @@ import { useState, useEffect } from "react"
 import API from '../../common/api';
 import Link from "next/link";
 
-import DiscordMembersCount from "./discord-members-count";
 import TwitterMembersCount from "./twitter-members-count";
 import { Container } from 'react-bootstrap';
 import Slider from "react-slick";
@@ -15,25 +14,28 @@ const SERVER_URL = API.SERVER_URL;
 export default function NftDrops() {
   const [data, setData] = useState([])
   const [blockchains, setBlockchains] = useState([]);
+  const [attributes, setAttributes] = useState([]);
   const [isLoading, setLoading] = useState(true)
 
   useEffect(() => {
     const getData = async () => {
+      let blockchains = await API.fetchBlockchains();
+      setBlockchains(blockchains);
+      const attributes = await API.fetchAttributes();
+      setAttributes(attributes);
       let data = await API.getJSONData('/calendar?position_id=2&is_published=1');
       let promos = await API.getJSONData('/promos?is_paid=1&position_id=2');
       promos = promos.slice(0, 3);
       promos.forEach(promo => {
         const promoCalendar = promo.calendar;
         for (const key in promoCalendar) {
-          if (key !== "image")
+          if (!["image", "id"].includes(key))
             promo[key] = promoCalendar[key];
         }
         data.push(promo);
       });
       setData(data);
       setLoading(false);
-      let blockchains = await API.fetchBlockchains();
-      setBlockchains(blockchains);
     }
     getData();
   }, []);
@@ -67,23 +69,20 @@ export default function NftDrops() {
       itemsArea = <Slider {...settings}>
         {data.map((item, index) => {
 
-          let blockchainImage = <></>;
-          if (blockchains.length > 0) {
-            const blockchain = blockchains.find(obj => obj.value === item.blockchain)
-            blockchainImage = <img src={`${SERVER_URL}/storage/blockchains/image/${blockchain['image']}`} className={pageStyle.blockchainImage} />
-          }
+          const blockchain =  blockchains.find(obj => obj.value === item.blockchain);
+          const blockchainImage = <img src={`${SERVER_URL}/storage/blockchains/image/${blockchain['image']}`} className={pageStyle.blockchainImage} />;
           let imgSrc = `${SERVER_URL}/storage/` + ("calendar_id" in item ? "promos" : "calendar") + `/image/${item.image}`;
-          const viewLink = "calendar_id" in item ? item.calendar_id + "&is_promo" : item.id
+          const viewLink = "calendar_id" in item ? `${item.calendar_id}&promo_id=${item.id}` : item.id
           return <div className={sectionStyle.nftDropBlock} key={index}>
             <Link href={`/view-calendar-item?id=${viewLink}`}>
               <a className={pageStyle.viewLink}>
-                <div className={sectionStyle.nftDropImage}>
+                <div className={`${sectionStyle.nftDropImage} ${pageStyle.sameImageContainer}`}>
                   <img
                     src={imgSrc} className="img-fluid" />
                   <div className={sectionStyle.nftDropAttrs}>
-                    {item.attrs !== null && JSON.parse(item.attrs).map((attr, index) => {
-                      let className = attr.value === "minting" ? "bg-green" : "bg-yellow";
-                      return <button className={`${pageStyle.btnSmall} ${className}`} key={index}>{attr.label}</button>
+                    {item.attrs && item.attrs.split(",").map((id, index) => {
+                      let attribute = attributes.find(obj => obj.value == id);
+                      return <button className={pageStyle.btnSmall} style={{backgroundColor:attribute.color}} key={index}>{attribute.label}</button>
                     })}
                   </div>
                 </div>
@@ -93,13 +92,13 @@ export default function NftDrops() {
               <h3>{item.title}</h3>
               <div className={sectionStyle.nftDropCurrency}>
                 {blockchainImage}
-                <p>{item.mint_price}</p>
+                <p>{item.mint_price} {blockchain !== "" ? blockchain.currency: ""}</p>
               </div>
               <br />
               <p>{item.description}</p>
               <div className={sectionStyle.nftDropSocialStats}>
                 <img src="/images/ruby.svg" /><span>{item.supply}</span>
-                <img src="/images/discord.svg" /><span><DiscordMembersCount link={item.discord} /></span>
+                <img src="/images/discord.svg" /><span>{item.discord_cnt}</span>
                 <img src="/images/twitter.svg" /><span><TwitterMembersCount link={item.twitter} /></span>
               </div>
             </div>
@@ -110,14 +109,14 @@ export default function NftDrops() {
     }
   }
 
-  const upComingBorderColor = data.length > 0 ? "#000": "transparent";
+  const upComingBorderDisplay = data.length > 0 ? "block": "none";
   return <><section id={sectionStyle.upComing}>
     <Container className={sectionStyle.container}>
       <h2 className={pageStyle.sectionTitle}>Upcoming NFT drops</h2>
       <p className={pageStyle.sectionDescription}>Currently minting & upcoming NFT drops</p>
       {itemsArea}
     </Container>
-    <div className={sectionStyle.upComingAfter} style={{borderColor:upComingBorderColor}}></div>
+    <div className={sectionStyle.upComingAfter} style={{display:upComingBorderDisplay}}></div>
   </section>
   </>
 }

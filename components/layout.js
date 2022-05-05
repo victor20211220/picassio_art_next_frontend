@@ -8,9 +8,6 @@ export default function Layout({ children, title }) {
         <>
             <Head>
                 <link rel="icon" href="/images/favicon.png" />
-
-                <link href="https://api.fontshare.com/css?f[]=cabinet-grotesk@300,400,500,600,700,800,900&display=swap"
-                    rel="stylesheet" />
                 <meta
                     name="description"
                     content="Picassio.art"

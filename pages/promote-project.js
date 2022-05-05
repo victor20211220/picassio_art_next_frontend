@@ -20,28 +20,57 @@ export default function PromoProject() {
   const router = useRouter();
 
   // init state
+  const curDate = new Date();
+  const [secondMinute, setSecondminute] = useState("");
+  useEffect(
+    () => {
+      setSecondminute(curDate.getSeconds() + "" +  curDate.getMinutes());
+    }
+  , []);
+  
+  curDate.setDate(curDate.getDate() + 1);
   const initialPromoState = {
     position_id: 1,
     image: "",
     start_date: new Date(),
-    end_date: new Date(),
+    end_date: curDate
   };
   const [promo, setPromo] = useState(initialPromoState);
 
   // position handler
   const [excludeDates, setEdates] = useState([]);
+
   const getDdates = async (position_id) => {
+    // const disabledDays = ['2022-04-20', '2022-04-21', '2022-04-22', '2022-04-23', '2022-04-25', '2022-04-26', '2022-04-27', '2022-04-29'];
+    // const disabledDays = ['2022-04-20', '2022-04-21', '2022-04-22', '2022-04-23', '2022-04-25', '2022-04-28',  '2022-04-29'];
+    // const disabledDays = ["2022-04-27","2022-04-28","2022-04-29"];
     const disabledDays = await API.getJSONData(`/promos/get-disabled-days?position_id=${position_id}`);
-    console.log('disabled days');
-    console.log(disabledDays);
     setEdates(disabledDays);
+    
+    
+    function availDate(date) {
+      if (!disabledDays.includes(getYmdDate(date)))
+          return date;
+      date.setDate(date.getDate() + 1);
+      while(disabledDays.includes(getYmdDate(date))){
+          date.setDate(date.getDate() + 1);
+      }
+      return date;
+    }
+
+    if(disabledDays.length > 0){
+      const startAvailDate = availDate(promo.start_date);
+      const nextDate = new Date(startAvailDate.getTime());
+      nextDate.setDate(nextDate.getDate() + 1);
+      const nextAvailDate = availDate(nextDate);
+      setPromo({ ...promo, start_date: startAvailDate, end_date: nextAvailDate });
+    }
   }
   useEffect(() => {
-    getDdates(1);
+    getDdates(promo.position_id);
   }, [])
   const changePositionHandler = id => {
     setPromo({ ...promo, position_id: id });
-    getDdates(id);
   };
   const position = positions.find((position) => position.id == promo.position_id);
 
@@ -64,31 +93,35 @@ export default function PromoProject() {
 
 
   // date change handler
-  const changePromoDateHandler = (key, date) => {
-    setPromo({ ...promo, [key]: date });
+  const changePromoDateHandler = (dates) => {
+    const [start, end] = dates;
+    setPromo({ ...promo, start_date:start, end_date:end});
   };
-
-  const startDateTimestamp = promo.start_date.getTime();
-  const endDateTimestamp = promo.end_date.getTime();
-  let diffInDays = Math.round((endDateTimestamp - startDateTimestamp) / (1000 * 3600 * 24)) + 1;
-  var currentDateStamp = startDateTimestamp
-  while (currentDateStamp <= endDateTimestamp) {
-    let date = new Date(currentDateStamp);
-    currentDateStamp = date.setDate(date.getDate() + 1);
-    if (excludeDates.includes(getYmdDate(new Date(currentDateStamp)))) {
-      diffInDays -= 1;
+  
+  let diffInDays = 0;
+  if(promo.end_date){
+    const startDateTimestamp = promo.start_date.getTime();
+    const startDate = new Date(startDateTimestamp);
+    const endDateTimestamp = promo.end_date.getTime();
+    diffInDays = Math.round((endDateTimestamp - startDateTimestamp) / (1000 * 3600 * 24)) + 1;
+    startDate.setDate(startDate.getDate() + 1);
+    while (startDate.getTime() < endDateTimestamp) {
+      if (excludeDates.includes(getYmdDate(startDate))) {
+        diffInDays -= 1;
+      }
+      startDate.setDate(startDate.getDate() + 1);
     }
   }
-
-  const totalPrice = diffInDays * position.price;
-  console.log(promo);
+  const totalPrice = diffInDays === 0 ? 0 : diffInDays * position.price + "." + secondMinute;
 
   // validation and submit
   const [validationError, setValidationError] = useState({})
   const ref = useRef();
   const savePromo = async () => {
+    if(diffInDays === 0) return false;
     const formData = new FormData()
     formData.append("calendar_id", router.query.calendar_id);
+    formData.append("total_price", totalPrice);
     for (const field in promo) {
       let value = promo[field];
       if (['start_date', 'end_date'].includes(field)) {
@@ -130,14 +163,11 @@ export default function PromoProject() {
   const guidelines = [
     "Only send ADA.",
     "Make sure to send the exact amount of ADA.",
-    "Only use a wallet like Yoroi, Nami, Daedalus, ccvault...",
-    "Do not send ADA from a crypto exchange like Binance.",
-    "This will take up to 10 minutes.",
   ]
 
   //copied
   const [copied, setCopied] = useState(false);
-  const manageCopied  = () => {
+  const manageCopied = () => {
     navigator.clipboard.writeText(adaAddress);
     setCopied(true);
   }
@@ -146,6 +176,8 @@ export default function PromoProject() {
       {copied ? "Copied!" : "Click to clipboard"}
     </Tooltip>
   );
+
+  console.log(promo);
   return (
     <Layout title="Promote your project">
       <section>
@@ -178,41 +210,36 @@ export default function PromoProject() {
                       </Row>
                     </div>
                     <h3>You chose {position.title} position</h3>
-                    <img src={previewImgUrl} className="img-fluid" alt="" />
+                    <img src={`/images/position_screens/${promo.position_id}.png`} className="img-fluid" alt="" />
                     <Row>
                       <Col sm={12} lg={{ span: 8, offset: 2 }}>
                         <Form.Group controlId="Image" className={sectionStyle.promoFormGroup}>
                           <small>Image (1:1 aspect ratio, 4MB max. file size)</small>
                           <Form.Control type="file" className={sectionStyle.listProjectInput} ref={ref} onChange={changeImageHandler} />
+                          <div className={sectionStyle.previewImg}>
+                            <img src={previewImgUrl} className="img-fluid" alt="" />
+                          </div>
                         </Form.Group>
                       </Col>
                     </Row>
                     <h3>Select an available advertising period</h3>
                     <div className={sectionStyle.dateRangePicker}>
                       <Row>
-                        <Col sm={12} md={6}>
+                        <Col sm={12} md={{span:6, offset:3}}>
+                          <h4 className={pageStyle.fw800}>
+                            {getYmdDate(promo.start_date)} ~ {promo.end_date && getYmdDate(promo.end_date)}
+                          </h4>
                           <DatePicker
                             selected={promo.start_date}
-                            onChange={(date) => changePromoDateHandler('start_date', date)}
-                            selectsStart
+                            onChange={changePromoDateHandler}
                             startDate={promo.start_date}
                             endDate={promo.end_date}
                             excludeDates={excludeDates.map(date => new Date(date))}
-                            // excludeDates={[new Date(), new Date("2022-04-21")]}
+                            minDate={new Date()}
+                            selectsRange
                             inline
                           />
                         </Col>
-                        <Col sm={12} md={6}>
-                          <DatePicker
-                            selected={promo.end_date}
-                            onChange={(date) => changePromoDateHandler('end_date', date)}
-                            selectsEnd
-                            startDate={promo.start_date}
-                            endDate={promo.end_date}
-                            excludeDates={excludeDates.map(date => new Date(date))}
-                            minDate={promo.start_date}
-                            inline
-                          /></Col>
                       </Row>
                       <div className={sectionStyle.dayDescription}>
                         <span>Not available</span>
@@ -243,11 +270,11 @@ export default function PromoProject() {
               <Row>
                 <Col sm={12} md={{ span: 10, offset: 1 }}>
                   <Row>
-                    <Col sm={12} md={4}>
+                    <Col sm={12} md={3}>
                       <small>Total to pay: </small>
                       <h2>{diffInDays} days</h2>
                     </Col>
-                    <Col sm={12} md={4}>
+                    <Col sm={12} md={5}>
                       <small>Total to pay: </small>
                       <h2>{totalPrice} ADA</h2>
                     </Col>
@@ -281,18 +308,18 @@ export default function PromoProject() {
                       <small>Send to this ADA Address (click the address to copy)</small>
                     </label>
                     <OverlayTrigger
-                  placement="top"
-                  delay={{ show: 250, hide: 400 }}
-                  overlay={renderTooltip}
-                >
-                    <textarea className="copyThis form-control" id="address" readonly="" onClick={() => manageCopied()}>{adaAddress}</textarea>
+                      placement="top"
+                      delay={{ show: 250, hide: 400 }}
+                      overlay={renderTooltip}
+                    >
+                      <textarea className="copyThis form-control" id="address" readonly="" onClick={() => manageCopied()}>{adaAddress}</textarea>
                     </OverlayTrigger>
                   </div>
                   <div className="form-group text-start mb-4">
                     <label className="control-label color-Dark01">
                       <small>Send this exact ADA Amount (click the amount to copy)</small>
                     </label>
-                    <input type="text" className="copyThis form-control" id="dust" readonly="" value={totalPrice}/>
+                    <input type="text" className="copyThis form-control" id="dust" readonly="" value={totalPrice} />
                   </div>
                   <h3>Guidelines</h3>
                   <ul>
@@ -308,7 +335,7 @@ export default function PromoProject() {
 
             <div className="reminder font-bold">
               <p className="text-center">Not complying with the guidelines above may result in permanent loss of
-                your ADA, and you won’t receive your NFT.</p>
+                your ADA.</p>
             </div>
           </div>
         </Modal.Body>
@@ -318,13 +345,12 @@ export default function PromoProject() {
 }
 
 function getYmdDate(dateObj) {
-  var month = dateObj.getMonth() + 1; //months from 1-12
-  var day = dateObj.getDate();
-  var year = dateObj.getFullYear();
+  let month = dateObj.getMonth() + 1; //months from 1-12
+  let day = dateObj.getDate();
+  const year = dateObj.getFullYear();
   if (month < 10)
     month = '0' + month;
   if (day < 10)
     day = '0' + day;
   return year + "-" + month + "-" + day;
 }
-

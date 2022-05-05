@@ -5,15 +5,10 @@ import { useRouter } from 'next/router'
 import { Container, Row, Col, Form, Button } from 'react-bootstrap'
 import pageStyle from '../styles/cnft-calendar/main.module.css';
 import sectionStyle from '../styles/cnft-calendar/nft-calendar.module.css';
-import DiscordMembersCount from '../components/nft-calendar/discord-members-count';
 import TwitterMembersCount from '../components/nft-calendar/twitter-members-count';
 import Select from 'react-select';
 import Swal from 'sweetalert2';
 
-const options = [
-  { value: 'featured', label: 'Featured' },
-  { value: 'minting', label: 'Minting' }
-];
 
 const FormInput = (props) => {
   const { label, type, name, calendar, handleInputChange } = props;
@@ -30,12 +25,12 @@ export default function ListProject() {
   const initialCalendarState = {
     title: "",
     mint_date: "",
-    amount: "",
-    attrs: [],
+    attrs: "",
     description: "",
     blockchain: "",
     mint_price: "",
     supply: "",
+    website: "",  
     discord: "",
     twitter: "",
     image: "",
@@ -44,10 +39,13 @@ export default function ListProject() {
   const placeholderImage = "https://via.placeholder.com/300X300.png?text=no%20image%20selected";
   const ref = useRef();
   const [blockchains, setBlockchains] = useState([]);
+  const [attributes, setAttributes] = useState([]);
   useEffect(() => {
     const getData = async () => {
       let blockchains = await API.fetchBlockchains();
       setBlockchains(blockchains);
+      const attributes = await API.fetchAttributes();
+      setAttributes(attributes);
     }
     getData();
   }, [])
@@ -60,7 +58,8 @@ export default function ListProject() {
 
 
   const changeAttrsHandler = event => {
-    setCalendar({ ...calendar, ['attrs']: event });
+    let ids = event.map(item => item.value);
+    setCalendar({ ...calendar, attrs: ids.join(",") });
   };
 
   const changeBlockchainHandler = event => {
@@ -89,13 +88,9 @@ export default function ListProject() {
     e.preventDefault();
 
     const formData = new FormData()
-    formData.append('is_published', 0);
     for (const field in calendar) {
       let value = calendar[field];
       switch (field) {
-        case "attrs":
-          value = JSON.stringify(value);
-          break;
         case "is_upcoming":
           value = calendar[field] === true ? 1 : 0;
           break;
@@ -136,6 +131,10 @@ export default function ListProject() {
     blockchainItem = <><img src={`${SERVER_URL}/storage/blockchains/image/${blockchain['image']}`} className={pageStyle.blockchainImage} />
       <span>{blockchain['label']}</span></>
   }
+
+  let attrs = calendar.attrs ? calendar.attrs.split(",").map(id => {
+    return attributes.find(obj => obj.value == id);
+  }) : [];
   return (
     <Layout title="List your project">
       <section>
@@ -144,7 +143,7 @@ export default function ListProject() {
             <h2 className={pageStyle.sectionTitle}>List Your Project</h2>
             <p className={pageStyle.sectionDescription}>Fill out this form, we will review the information provided and publish your project on our calendar</p>
             <Row>
-              <Col sm={12} md={{ span: 10, offset: 1 }}  lg={{ span: 8, offset: 2 }}>
+              <Col sm={12} md={{ span: 10, offset: 1 }} lg={{ span: 8, offset: 2 }}>
                 <div className="form-wrapper">
                   <Form>
                     <FormInput label="Project title" type="text" name="title" calendar={calendar} handleInputChange={handleInputChange} />
@@ -159,7 +158,7 @@ export default function ListProject() {
                     </Row>
                     <Row>
                       <Col sm={6}>
-                        <Form.Group>
+                        <Form.Group className={`${sectionStyle.listFormGroup}`}>
                           <Form.Label>Blockchain</Form.Label>
                           <Select
                             theme={(theme) => ({
@@ -180,9 +179,6 @@ export default function ListProject() {
                           />
                         </Form.Group>
                         {/* <FormInput label="Blockchain" type="text" name="blockchain" calendar={calendar} handleInputChange={handleInputChange} /> */}
-                      </Col>
-                      <Col sm={6}>
-                        <FormInput label="Amount" type="text" name="amount" calendar={calendar} handleInputChange={handleInputChange} />
                       </Col>
                     </Row>
                     <Row>
@@ -207,10 +203,11 @@ export default function ListProject() {
                                 primary: 'black',
                               },
                             })}
-                            value={calendar.attrs}
+                            value={attrs}
+                            isOptionDisabled={() => attrs.length >= 2}
                             isMulti
                             onChange={changeAttrsHandler}
-                            options={options}
+                            options={attributes}
                             name="attrs"
                             classNamePrefix="select"
                             className={`${sectionStyle.listProjectInput} basic-multi-select`}
@@ -219,6 +216,11 @@ export default function ListProject() {
                       </Col>
                       <Col sm={6}>
                         <FormInput label="Supply" type="text" name="supply" calendar={calendar} handleInputChange={handleInputChange} />
+                      </Col>
+                    </Row>
+                    <Row>
+                      <Col>
+                        <FormInput label="Website" type="url" name="website" calendar={calendar} handleInputChange={handleInputChange} />
                       </Col>
                     </Row>
                     <Row>
@@ -241,96 +243,91 @@ export default function ListProject() {
             </Row>
             <Row>
               <Col sm={12} md={{ span: 10, offset: 1 }}>
-            <div className={sectionStyle.calendarItem}>
-              <a>
-                <Row>
-                  {calendar.amount !== "" &&
-                    <div className="position-relative">
-                      <button className={sectionStyle.itemAmount}><img src='/images/left-arrow.svg' />{calendar.amount}</button>
-                    </div>
-                  }
-                  <Col sm={12} lg={4} xl={3} className={sectionStyle.calendarImgDiv}>
-                    <img
-                      src={previewImgUrl} className={`${sectionStyle.calendarImg} img-fluid`} alt=""
-                    />
-                  </Col>
-                  <Col sm={12} lg={8} xl={9}>
-                    <div className={sectionStyle.calendarDetails}>
-                      <h3>{calendar.title}</h3>
-                      <div className={sectionStyle.calendarAttrs}>
-                        {calendar.attrs !== null && calendar.attrs.map((attr, index) => {
-                          let className = attr.value === "minting" ? "bg-green" : "bg-yellow";
-                          return <button className={`${pageStyle.btnSmall} ${className}`} key={index}>{attr.label}</button>
-                        })}
-                      </div>
-                      <p className={sectionStyle.calendarDescription}>{calendar.description}</p>
-                      <div className={sectionStyle.socialStats}>
-                        <div>
-                          <p>Blockchain</p>
-                          <div>
-                            {blockchainItem}
+                <div className={sectionStyle.calendarItem}>
+                  <a>
+                    <Row>
+                      <Col sm={12} lg={4} className={pageStyle.sameImageContainer}>
+                        <img
+                          src={previewImgUrl} className={`${sectionStyle.calendarImg} img-fluid`} alt=""
+                        />
+                      </Col>
+                      <Col sm={12} lg={8}>
+                        <div className={sectionStyle.calendarDetails}>
+                          <h3>{calendar.title}</h3>
+                          <div className={sectionStyle.calendarAttrs}>
+                          {calendar.attrs && calendar.attrs.split(",").map((id, index) => {
+                            let attribute = attributes.find(obj => obj.value == id);
+                            return <button className={pageStyle.btnSmall} style={{ backgroundColor: attribute.color }} key={index}>{attribute.label}</button>
+                          })}
                           </div>
-                        </div>
-                        <div>
-                          <p>Mint price</p>
-                          <div>
-                            <img src="/images/mint-price.svg" />
-                            <span>{calendar.mint_price === "" ? "\u00A0" : ""}</span>
-                          </div>
-                        </div>
-                        <div>
-                          <p>Supply</p>
-                          <div>
-                            <img src="/images/ruby.svg" />
-                            <span>{calendar.supply === "" ? "\u00A0" : ""}</span>
-                          </div>
-                        </div>
+                          <p className={sectionStyle.calendarDescription}>{calendar.description}</p>
+                          <div className={sectionStyle.socialStats}>
+                            <div>
+                              <p>Blockchain</p>
+                              <div>
+                                {blockchainItem}
+                              </div>
+                            </div>
+                            <div>
+                              <p>Mint price</p>
+                              <div>
+                                <img src="/images/mint-price.svg" />
+                                <span>{calendar.mint_price === "" ? "\u00A0" : calendar.mint_price}</span>
+                              </div>
+                            </div>
+                            <div>
+                              <p>Supply</p>
+                              <div>
+                                <img src="/images/ruby.svg" />
+                                <span>{calendar.supply === "" ? "\u00A0" : calendar.supply}</span>
+                              </div>
+                            </div>
 
-                        <div>
-                          <p>Discord</p>
-                          <div>
-                            <img src="/images/discord.svg" />
-                            <span>0</span>
-                          </div>
-                        </div>
+                            <div>
+                              <p>Discord</p>
+                              <div>
+                                <img src="/images/discord.svg" />
+                                <span>0</span>
+                              </div>
+                            </div>
 
-                        <div>
-                          <p>Twitter</p>
-                          <div>
-                            <img src="/images/twitter.svg" />
-                            <span><TwitterMembersCount link={calendar.twitter} /></span>
+                            <div>
+                              <p>Twitter</p>
+                              <div>
+                                <img src="/images/twitter.svg" />
+                                <span><TwitterMembersCount link={calendar.twitter} /></span>
+                              </div>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    </div>
-                  </Col>
-                </Row>
-              </a>
-            </div>
-            </Col></Row>
-            <div className={sectionStyle.listProjectBottom}>
-            <Row>
-              <Col sm={12} md={{ span: 10, offset: 1 }}  lg={{ span: 8, offset: 2 }}>
-            {Object.keys(validationError).length > 0 && (
-              <div className="row">
-                <div className="col-12">
-                  <div className={sectionStyle.alert}>
-                    <ul className="mb-0">
-                      {
-                        Object.entries(validationError).map(([key, value]) => (
-                          <li key={key}>{value}</li>
-                        ))
-                      }
-                    </ul>
-                  </div>
+                      </Col>
+                    </Row>
+                  </a>
                 </div>
-              </div>
-            )}
-            <Button className={sectionStyle.projectSubmit} onClick={saveCalendar} size="lg" block="block" type="submit">
-              Submit
-            </Button>
-            </Col>
-            </Row></div>
+              </Col></Row>
+            <div className={sectionStyle.listProjectBottom}>
+              <Row>
+                <Col sm={12} md={{ span: 10, offset: 1 }} lg={{ span: 8, offset: 2 }}>
+                  {Object.keys(validationError).length > 0 && (
+                    <div className="row">
+                      <div className="col-12">
+                        <div className={sectionStyle.alert}>
+                          <ul className="mb-0">
+                            {
+                              Object.entries(validationError).map(([key, value]) => (
+                                <li key={key}>{value}</li>
+                              ))
+                            }
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                  <Button className={sectionStyle.projectSubmit} onClick={saveCalendar} size="lg" block="block" type="submit">
+                    Submit
+                  </Button>
+                </Col>
+              </Row></div>
           </div>
         </Container>
       </section>

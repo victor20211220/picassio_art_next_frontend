@@ -7,6 +7,7 @@ import { useState } from 'react';
 const pageLinks = [{
     link: "/cnft-calendar",
     label: "CNFT Calendar",
+    className: pageStyle.hoverBoxShadow
 }, {
     link: "/rarity-tools",
     label: "Rarity tools",
@@ -22,10 +23,11 @@ const pageLinks = [{
     label: "Picassio NFT",
     info: "minting live",
     infoClass: "green",
+    className: pageStyle.hoverBoxShadow
 }, {
     link: "/list-project",
     label: "List Project",
-    className: `${headerStyle.btnBig} bg-pink`
+    className: `${headerStyle.btnBig} ${pageStyle.hoverBoxShadow} ${pageStyle.withBorder} bg-pink`
 }];
 
 const socialLinks = [{

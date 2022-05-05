@@ -75,6 +75,8 @@
     margin-left: 8px;
     text-transform: uppercase;
     padding: 4px 8px;
+    --webkit-text-fill-color: #000;
+    --webkit-opacity: 1; 
 }
 
 .w100{
@@ -125,7 +127,6 @@
     .sectionDescription {
         margin-bottom: 30px;
     }
-
 }
 
 
@@ -133,4 +134,33 @@
 .viewLink, .viewLink:hover {
     color: black;
     text-decoration: none;
+}
+.fw800{
+    font-weight: 800 !important;
+}
+
+
+.hoverBoxShadow, .boxShadow{
+    --box-shadow-color: transparent;
+    box-shadow: 4px 5px 0px var(--box-shadow-color);
+    border: 2px solid transparent;
+}
+.withBorder{
+    border: 2px solid #000;
+}
+.hoverBoxShadow:hover, .boxShadow{
+    --box-shadow-color: #000;
+    border-color: #000000;
+}
+.sameImageContainer{
+    position: relative;
+}
+.sameImageContainer:after{
+    content: "";
+    display: block;
+    padding-bottom: 100%;
+}
+.sameImageContainer img{
+    position: absolute;
+    height: 100%;
 }

@@ -19,9 +19,20 @@ const fetchBlockchains = () => {
             let blockchains = [];
             result.map(item => {
                 // blockchains[item.id] = { name: item.name, image: item.image }
-                blockchains.push({ value: item.id, label: item.name, image: item.image })
+                blockchains.push({ value: item.id, label: item.name, currency: item.currency, image: item.image })
             })
             resolve(blockchains);
+        })
+    })
+}
+const fetchAttributes = () => {
+    return new Promise(resolve => {
+        getJSONData('/attributes').then(result => {
+            let attributes = [];
+            result.map(item => {
+                attributes.push({ value: item.id, label: item.name, color: item.color })
+            })
+            resolve(attributes);
         })
     })
 }
@@ -83,4 +94,5 @@ export default {
     getDiscordMembersCount,
     listProject,
     promoProject,
+    fetchAttributes,
 };

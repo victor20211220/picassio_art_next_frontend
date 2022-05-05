@@ -9,7 +9,7 @@
     width: 100%;
     background: #F6EFFF;
     position: absolute;
-    border-top: solid 2px transparent;
+    border-top: solid 2px #000;
     height: calc(100%  - 482px);
     top: 482px;
 }
@@ -60,6 +60,12 @@
     font-weight: 800;
     font-size: 20px;
     line-height: 24px;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    overflow: hidden;
+    line-clamp: 1;
+    -webkit-box-orient: vertical;
 }
 .nftDropCurrency{
     display: flex;
@@ -80,6 +86,7 @@
     -webkit-line-clamp: 3;
     line-clamp: 3;
     -webkit-box-orient: vertical;
+    height: 54px;
 }
 .nftDropSocialStats{
     display: flex;
@@ -89,7 +96,7 @@
 }
 .nftDropSocialStats img{
     width: 16px;
-    height: auto;
+    height: 18px;
 }
 .nftDropSocialStats span:not(:last-child){
     margin: 0 16px 0 6px;

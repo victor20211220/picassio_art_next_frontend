@@ -5,10 +5,11 @@
 }
 
 .filters button, .filters input, .filters select {
-    box-shadow: 4px 5px 0px #000000;
-    font-weight: 500;
-    font-size: 18px;
-    line-height: 22px;
+    box-shadow: 4px 5px 0px #000000 !important;
+    font-weight: 500 !important;
+    font-size: 18px !important;
+    line-height: 22px !important;
+    color: #000;
 }
 
 .periods {
@@ -20,14 +21,31 @@
     border-style: solid;
     border-color: black;
     border-width: 2px 0 2px 2px;
-    padding: 13px 10px;
+    padding: 13px 0;
     font-weight: 500;
     font-size: 18px;
+    width: 3.6em;
     line-height: 22px;
+}
+
+.periods button:hover {
+    background-color: var(--theme-green);
 }
 
 .selected {
     background: #FF80F3 !important;
+}
+
+.days button:first-child {
+    border-left-width: 0 !important;
+}
+
+.leftArrow {
+    border-right-width: 2px !important;
+}
+
+.leftArrow, .rightArrow {
+    width: 36px !important;
 }
 
 .leftArrow img, .rightArrow img {
@@ -50,13 +68,6 @@
     border: 2px solid black;
 }
 
-.sortDropdown {
-    height: 54px;
-    outline: 0;
-    border: 2px solid black;
-    width: 100%;
-    padding: 10px;
-}
 
 /* calendar Item */
 .calendarItem {
@@ -72,9 +83,14 @@
 }
 
 .calendarImg {
-    width: 100%;
-    height: 100%;
     border-right: 2px solid #000000;
+    /* Take your picture out of the flow */
+    top: 0;
+    bottom: 0;
+    left: 12px;
+    right: 12px;
+    /* Make the picture taking the size of it's parent */
+    width: calc(100% - 24px);
 }
 
 .calendarDetails h3 {
@@ -154,19 +170,16 @@
     line-height: 28px;
     padding: 15px 49px 15px 50px;
     background: #FFFFFF;
-    border: 2px solid #000000;
-    box-sizing: border-box;
-    box-shadow: 4px 5px 0px #000000;
     margin: 50px auto;
     display: block;
 }
 
 @media(max-width: 1200px) {
     .periods button {
-        width: calc(100% / 9);
+        width: calc(100% / 9) !important;
     }
 
-    .searchInput, .sortDropdown {
+    .searchInput, .filters .listProjectInput {
         margin-top: 20px;
     }
 
@@ -179,7 +192,7 @@
     }
 
     .days button {
-        width: calc(100% / 7);
+        width: calc(100% / 7) !important;
     }
 }
 
@@ -200,8 +213,8 @@
     }
 
     .periods button {
-        padding: 12px;
-        width: auto;
+        /* padding: 12px; */
+        /* width: 3.6em !important; */
         box-shadow: none;
     }
 
@@ -288,20 +301,25 @@ input[type=file].listProjectInput {
     line-height: 38px;
 }
 
+input[name=website].listProjectInput,
 input[name=discord].listProjectInput,
 input[name=twitter].listProjectInput {
-    background: url("/images/discord.svg") white no-repeat;
+    background: url("/images/website.svg") white no-repeat;
     background-position: 10px;
     text-indent: 2em;
 }
 
+
+input[name=discord].listProjectInput {
+    background-image: url("/images/discord.svg");
+}
 
 input[name=twitter].listProjectInput {
     background-image: url("/images/twitter.svg");
 }
 
 div.listProjectInput>div {
-    min-height: 52px !important;
+    min-height: 50px !important;
 }
 
 .listProject label {
@@ -457,7 +475,7 @@ div.listProjectInput>div {
 }
 
 .promoMiddle form>img {
-    max-width: 80%;
+    max-width: 100%;
     margin-bottom: 37px;
 }
 
@@ -510,8 +528,7 @@ div.listProjectInput>div {
 
 .promoSubmit,
 .promoSubmit:hover,
-.promoSubmit:active
-{
+.promoSubmit:active {
     background: #A2FF7B;
     border: 2px solid #000000;
     box-sizing: border-box;
@@ -523,10 +540,12 @@ div.listProjectInput>div {
     border-radius: 0;
     color: #000;
 }
+
 .promoSubmit:hover,
 .promoSubmit:active {
     outline: none !important;
 }
+
 /* modal */
 .qrModal [class^=modal-content] {
     border-radius: 20px;
@@ -632,12 +651,14 @@ div.listProjectInput>div {
         margin: 0 auto;
     }
 }
-@media(max-width:991px){
+
+@media(max-width:991px) {
     .position {
         padding: 24px;
         margin-bottom: 20px;
     }
 }
+
 @media(max-width: 767px) {
     .promoProject {
         margin-bottom: -100px;
@@ -696,7 +717,7 @@ div.listProjectInput>div {
         margin: 0;
         padding: 25px 20px;
     }
-    
+
     .promoBottom {
         text-align: center;
     }
@@ -730,8 +751,9 @@ div.listProjectInput>div {
     font-size: 18px;
     line-height: 40px;
 }
+
 .promoProject [class^=react-datepicker__current-month],
-.promoProject [class^=react-datepicker__day-name]{
+.promoProject [class^=react-datepicker__day-name] {
     font-weight: 800;
 }
 
@@ -813,19 +835,33 @@ div.listProjectInput>div {
     background: #F6EFFF;
     margin: -64px -20px -80px -20px;
     padding: 90px 20px 80px 20px;
-    border-top:solid 2px black;
+    border-top: solid 2px black;
 }
+
 @media(max-width: 767px) {
     .listProjectBottom {
         padding: 90px 20px 0 20px;
     }
-    .container{
+
+    .container {
         max-width: 100%;
     }
 }
 
-@media(max-width: 576px){
-    #sliders{
+@media(max-width: 576px) {
+    #sliders {
         margin: 75px 0;
     }
+}
+
+.previewImg {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.previewImg>img {
+    width: 300px;
+    height: 300px;
+    border: 2px solid #000000;
+    box-shadow: 7px 8px 0px #000000;
 }

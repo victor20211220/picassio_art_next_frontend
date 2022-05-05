@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react"
 import API from '../../common/api';
 import Link from "next/link";
-
 import { Row, Col } from 'react-bootstrap'
 import sectionStyle from '../../styles/cnft-calendar/nft-calendar.module.css';
 import pageStyle from '../../styles/cnft-calendar/main.module.css';
@@ -10,12 +9,10 @@ const SERVER_URL = API.SERVER_URL;
 export default function GetCalendarItems(props) {
   const [data, setData] = useState([]);
   const [blockchains, setBlockchains] = useState([]);
+  const [attributes, setAttributes] = useState([]);
   const [isLoading, setLoading] = useState(true)
 
   let params = JSON.parse(JSON.stringify(props));
-  if (["twitter", "discord"].indexOf(props.sort_by) !== -1) {
-    params.sort_by = "title";
-  }
   useEffect(() => {
     const getData = async () => {
       let result = await API.getJSONData(`/calendar?is_published=1&${new URLSearchParams(params).toString()}`);
@@ -25,13 +22,14 @@ export default function GetCalendarItems(props) {
       } else {
         let blockchains = await API.fetchBlockchains();
         setBlockchains(blockchains);
+        const attributes = await API.fetchAttributes();
+        setAttributes(attributes);
         result = await Promise.all(result.map(async (item) => {
           item['twitter'] = await API.getTwitterFollowersCount(item.twitter);
-          item['discord'] = await API.getDiscordMembersCount(item.discord);
           return item;
         }));
-
-        if (["twitter", "discord"].indexOf(props.sort_by) !== -1) {
+        console.log(result);
+        if (props.sort_by === "twitter") {
           result.sort(function (a, b) {
             let keyA = a[props.sort_by],
               keyB = b[props.sort_by];
@@ -64,10 +62,10 @@ export default function GetCalendarItems(props) {
             <Link href={`/view-calendar-item?id=${item.id}`}>
               <a className={pageStyle.viewLink}>
                 <Row>
-                  <div className="position-relative">
+                  <div className="position-relative d-none">
                     <button className={sectionStyle.itemAmount}><img src='/images/left-arrow.svg' />{item.amount}</button>
                   </div>
-                  <Col sm={12} lg={4} xl={3} className={sectionStyle.calendarImgDiv}>
+                  <Col sm={12} lg={4} xl={3} className={`${sectionStyle.calendarImgDiv} ${pageStyle.sameImageContainer}`}>
                     <img
                       src={`${SERVER_URL}/storage/calendar/image/${item.image}`} className={`${sectionStyle.calendarImg} img-fluid`} alt=""
                     />
@@ -76,9 +74,9 @@ export default function GetCalendarItems(props) {
                     <div className={sectionStyle.calendarDetails}>
                       <h3>{item.title}</h3>
                       <div className={sectionStyle.calendarAttrs}>
-                        {item.attrs !== null && JSON.parse(item.attrs).map((attr, index) => {
-                          let className = attr.value === "minting" ? "bg-green" : "bg-yellow";
-                          return <button className={`${pageStyle.btnSmall} ${className}`} key={index}>{attr.label}</button>
+                        {item.attrs && item.attrs.split(",").map((id, index) => {
+                          let attribute = attributes.find(obj => obj.value == id);
+                          return <button className={pageStyle.btnSmall} style={{ backgroundColor: attribute.color }} key={index}>{attribute.label}</button>
                         })}
                       </div>
                       <p className={sectionStyle.calendarDescription}>{item.description}</p>
@@ -93,7 +91,7 @@ export default function GetCalendarItems(props) {
                           <p>Mint price</p>
                           <div>
                             <img src="/images/mint-price.svg" />
-                            <span>{item.mint_price}</span>
+                            <span>{item.mint_price} {blockchain.currency}</span>
                           </div>
                         </div>
                         <div>
@@ -108,7 +106,7 @@ export default function GetCalendarItems(props) {
                           <p>Discord</p>
                           <div>
                             <img src="/images/discord.svg" />
-                            <span>{item.discord}</span>
+                            <span>{item.discord_cnt}</span>
                           </div>
                         </div>
 
