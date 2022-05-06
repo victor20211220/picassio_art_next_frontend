@@ -11,7 +11,7 @@ import sectionStyle from '../../styles/cnft-calendar/nft-drops.module.css';
 import pageStyle from '../../styles/cnft-calendar/main.module.css';
 
 const SERVER_URL = API.SERVER_URL;
-export default function NftDrops() {
+export default function NftDrops(props) {
   const [data, setData] = useState([])
   const [blockchains, setBlockchains] = useState([]);
   const [attributes, setAttributes] = useState([]);
@@ -112,8 +112,8 @@ export default function NftDrops() {
   const upComingBorderDisplay = data.length > 0 ? "block": "none";
   return <><section id={sectionStyle.upComing}>
     <Container className={sectionStyle.container}>
-      <h2 className={pageStyle.sectionTitle}>Upcoming NFT drops</h2>
-      <p className={pageStyle.sectionDescription}>Currently minting & upcoming NFT drops</p>
+      <h2 className={pageStyle.sectionTitle}>{props.featured_title}</h2>
+      <p className={pageStyle.sectionDescription}>{props.featured_description}</p>
       {itemsArea}
     </Container>
     <div className={sectionStyle.upComingAfter} style={{display:upComingBorderDisplay}}></div>

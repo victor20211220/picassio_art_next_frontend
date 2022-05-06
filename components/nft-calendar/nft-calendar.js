@@ -45,11 +45,8 @@ function useWindowSize() {
   return windowSize;
 }
 
-export default function NftCalendar() {
+export default function NftCalendar(props) {
   const curDateValue = getDbDateFormat(new Date());
-  // if(process.env.NEXT_PUBLIC_APIURL=="http://localhost:8000")
-  //   curDateValue = "2022-04-08";
-
   //get dates in current week
   const options = { month: 'numeric', day: 'numeric' };
   const firstDate = new Date; // get current date
@@ -85,8 +82,8 @@ export default function NftCalendar() {
   }
   return <section id={sectionStyle.nftCalendar}>
     <Container>
-      <h2 className={pageStyle.sectionTitle}>#1 NFT Calendar</h2>
-      <p className={pageStyle.sectionDescription}>Currently minting & upcoming NFT drops</p>
+      <h2 className={pageStyle.sectionTitle}>{props.calendar_title}</h2>
+      <p className={pageStyle.sectionDescription}>{props.calendar_description}</p>
       <div className={sectionStyle.filters}>
         <Row>
           <Col lg="12" xl="6">

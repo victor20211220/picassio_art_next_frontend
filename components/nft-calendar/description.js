@@ -12,7 +12,7 @@ import pageStyle from '../../styles/cnft-calendar/main.module.css';
 
 
 const SERVER_URL = API.SERVER_URL;
-export default function Description() {
+export default function Description(props) {
   const [data, setData] = useState([])
   const [blockchains, setBlockchains] = useState([]);
   const [isLoading, setLoading] = useState(false)
@@ -85,8 +85,8 @@ export default function Description() {
   }
   return <section id={sectionStyle.description}>
     <Container>
-      <h1>Best place to Find and List your favorite CNFT Drop</h1>
-      <p className={pageStyle.sectionDescription}>Fully functional CNFT calendar created with love</p>
+      <h1>{props.header_title}</h1>
+      <p className={pageStyle.sectionDescription}>{props.header_description}</p>
       <div className="position-relative">
         {itemsArea}
       </div>

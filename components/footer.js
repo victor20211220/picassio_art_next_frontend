@@ -1,3 +1,6 @@
+import { useState, useEffect } from "react"
+import API from '../common/api';
+
 import { Container, Row, Col } from 'react-bootstrap';
 import sectionStyle from '../styles/footer.module.css';
 import pageStyle from '../styles/cnft-calendar/main.module.css';
@@ -11,6 +14,16 @@ const socialLinks = [{
 }];
 
 export default function Footer() {
+    const [footerDescription, setData] = useState("");
+    useEffect(() => {
+        getData();
+    }, []);
+
+    const getData = async () => {
+        const texts = await API.getJSONData('/texts');
+        setData(texts.text.footer_description);
+    }
+    let lines = footerDescription.split("\r\n");
     return (
         <footer className={sectionStyle.footer}>
             <Container>
@@ -32,8 +45,9 @@ export default function Footer() {
                     </Col>
                 </Row>
                 <div className={sectionStyle.copyright}>
-                    © Picassio.art, 2022 | Policy ID 257bac7f72e1faa23cab40844f7f82d462878fbf3f31e5d00eb737cb<br />
-                    Information on this page does not constitute investment advice, financial advice, trading advice, or any other type of advice, and you should not treat any of its content as such. Before making any investment decisions, conduct your due diligence and consult your financial advisor. Picassio roadmap is subject to change.
+                    {lines.map(line => (
+                        <>{line}<br/></>
+                    ))}
                 </div>
             </Container>
         </footer>
