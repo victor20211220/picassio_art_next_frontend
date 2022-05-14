@@ -1,5 +1,6 @@
 .socialButtons{
     margin-left: 24px;
+    margin-bottom: 15px;
 }
 .leftArrow, .rightArrow {
     position: absolute;
@@ -92,6 +93,9 @@
 }
 
 @media(max-width: 576px){
+    .socialButtons{
+        margin-bottom: 0;
+    }
     .leftArrow, .rightArrow {
         bottom: -72px;
         top: auto;

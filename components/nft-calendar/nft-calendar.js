@@ -56,9 +56,9 @@ export default function NftCalendar(props) {
   const [days, setDays] = useState(0);
   const [itemLimit, setItemLimit] = useState(10);
   const [keyword, setKeyword] = useState("");
-  const [sortBy, setSortBy] = useState("title");
+  const [sortBy, setSortBy] = useState("mint_date");
   const sortsBy = [
-    { value: 'title', label: 'title' },
+    { value: 'mint_date', label: 'date' },
     { value: 'twitter', label: 'twitter' },
     { value: 'discord_cnt', label: 'discord' }
   ];
@@ -127,6 +127,8 @@ export default function NftCalendar(props) {
               name="sort"
               classNamePrefix="select"
               className={sectionStyle.listProjectInput}
+              isSearchable={ false }
+              inputProps={{readOnly:true}}
             />
           </Col>
         </Row>

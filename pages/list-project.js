@@ -30,7 +30,7 @@ export default function ListProject() {
     blockchain: "",
     mint_price: "",
     supply: "",
-    website: "",  
+    website: "",
     discord: "",
     twitter: "",
     image: "",
@@ -176,6 +176,9 @@ export default function ListProject() {
                             name="blockchain"
                             classNamePrefix="select"
                             className={sectionStyle.listProjectInput}
+
+                            isSearchable={false}
+                            inputProps={{ readOnly: true }}
                           />
                         </Form.Group>
                         {/* <FormInput label="Blockchain" type="text" name="blockchain" calendar={calendar} handleInputChange={handleInputChange} /> */}
@@ -211,6 +214,8 @@ export default function ListProject() {
                             name="attrs"
                             classNamePrefix="select"
                             className={`${sectionStyle.listProjectInput} basic-multi-select`}
+                            isSearchable={false}
+                            inputProps={{ readOnly: true }}
                           />
                         </Form.Group>
                       </Col>
@@ -255,10 +260,10 @@ export default function ListProject() {
                         <div className={sectionStyle.calendarDetails}>
                           <h3>{calendar.title}</h3>
                           <div className={sectionStyle.calendarAttrs}>
-                          {calendar.attrs && calendar.attrs.split(",").map((id, index) => {
-                            let attribute = attributes.find(obj => obj.value == id);
-                            return <button className={pageStyle.btnSmall} style={{ backgroundColor: attribute.color }} key={index}>{attribute.label}</button>
-                          })}
+                            {calendar.attrs && calendar.attrs.split(",").map((id, index) => {
+                              let attribute = attributes.find(obj => obj.value == id);
+                              return <button className={pageStyle.btnSmall} style={{ backgroundColor: attribute.color }} key={index}>{attribute.label}</button>
+                            })}
                           </div>
                           <p className={sectionStyle.calendarDescription}>{calendar.description}</p>
                           <div className={sectionStyle.socialStats}>

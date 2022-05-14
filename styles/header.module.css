@@ -33,10 +33,17 @@
     font-size: 10px;
     line-height: 11px;
     margin: -9px auto 0;
-    display: block;
     text-transform: uppercase;
+    display: block;
+    opacity: 0;
 }
-
+.navItem:hover button{
+    opacity: 1;
+}
+.navItem:hover a{
+    --box-shadow-color: #000;
+    border-color: #000000;
+}
 .btnBig{
     box-sizing: border-box;
     margin-left:24px !important;

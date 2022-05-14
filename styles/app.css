@@ -207,3 +207,6 @@ button {
 .select__control{
     border-width: 0 !important;
 }
+.cursor-pointer{
+    cursor: pointer;
+}

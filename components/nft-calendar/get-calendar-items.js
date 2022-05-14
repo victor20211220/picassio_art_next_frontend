@@ -6,6 +6,7 @@ import sectionStyle from '../../styles/cnft-calendar/nft-calendar.module.css';
 import pageStyle from '../../styles/cnft-calendar/main.module.css';
 
 const SERVER_URL = API.SERVER_URL;
+const options = { month: 'long', day: 'numeric'};
 export default function GetCalendarItems(props) {
   const [data, setData] = useState([]);
   const [blockchains, setBlockchains] = useState([]);
@@ -72,12 +73,22 @@ export default function GetCalendarItems(props) {
                   </Col>
                   <Col sm={12} lg={8} xl={9}>
                     <div className={sectionStyle.calendarDetails}>
-                      <h3>{item.title}</h3>
-                      <div className={sectionStyle.calendarAttrs}>
-                        {item.attrs && item.attrs.split(",").map((id, index) => {
-                          let attribute = attributes.find(obj => obj.value == id);
-                          return <button className={pageStyle.btnSmall} style={{ backgroundColor: attribute.color }} key={index}>{attribute.label}</button>
-                        })}
+                      <div className="d-block d-lg-flex">
+                        <div>
+                          <h3>{item.title}</h3>
+                          <div className={sectionStyle.calendarAttrs}>
+                            {item.attrs && item.attrs.split(",").map((id, index) => {
+                              let attribute = attributes.find(obj => obj.value == id);
+                              return <button className={pageStyle.btnSmall} style={{ backgroundColor: attribute.color }} key={index}>{attribute.label}</button>
+                            })}
+                          </div>
+                        </div>
+                          <div className="ms-auto mt-3 mt-lg-1">
+                            <h4>
+                              <b>{new Date(item.mint_date).toLocaleDateString(undefined, options)}</b>
+                            </h4>
+                          </div>
+
                       </div>
                       <p className={sectionStyle.calendarDescription}>{item.description}</p>
                       <div className={sectionStyle.socialStats}>

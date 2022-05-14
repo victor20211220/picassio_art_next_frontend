@@ -8,6 +8,7 @@ import sectionStyle from '../styles/cnft-calendar/nft-calendar.module.css';
 import Swal from 'sweetalert2';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import Globals from '../common/Globals';
 
 const positions = [
   { id: 1, title: 'Main page header', price: 30 },
@@ -19,15 +20,22 @@ export default function PromoProject() {
 
   const router = useRouter();
 
+  const setting = Globals.getSetting();
+  const walletAddress = setting.wallet_address;
+  console.log(walletAddress);
+  positions[0]['price'] = setting.promote_price1;
+  positions[1]['price'] = setting.promote_price2;
+  positions[2]['price'] = setting.promote_price3;
+
   // init state
   const curDate = new Date();
   const [secondMinute, setSecondminute] = useState("");
   useEffect(
     () => {
-      setSecondminute(curDate.getSeconds() + "" +  curDate.getMinutes());
+      setSecondminute(curDate.getSeconds() + "" + curDate.getMinutes());
     }
-  , []);
-  
+    , []);
+
   curDate.setDate(curDate.getDate() + 1);
   const initialPromoState = {
     position_id: 1,
@@ -46,19 +54,19 @@ export default function PromoProject() {
     // const disabledDays = ["2022-04-27","2022-04-28","2022-04-29"];
     const disabledDays = await API.getJSONData(`/promos/get-disabled-days?position_id=${position_id}`);
     setEdates(disabledDays);
-    
-    
+
+
     function availDate(date) {
       if (!disabledDays.includes(getYmdDate(date)))
-          return date;
+        return date;
       date.setDate(date.getDate() + 1);
-      while(disabledDays.includes(getYmdDate(date))){
-          date.setDate(date.getDate() + 1);
+      while (disabledDays.includes(getYmdDate(date))) {
+        date.setDate(date.getDate() + 1);
       }
       return date;
     }
 
-    if(disabledDays.length > 0){
+    if (disabledDays.length > 0) {
       const startAvailDate = availDate(promo.start_date);
       const nextDate = new Date(startAvailDate.getTime());
       nextDate.setDate(nextDate.getDate() + 1);
@@ -95,11 +103,11 @@ export default function PromoProject() {
   // date change handler
   const changePromoDateHandler = (dates) => {
     const [start, end] = dates;
-    setPromo({ ...promo, start_date:start, end_date:end});
+    setPromo({ ...promo, start_date: start, end_date: end });
   };
-  
+
   let diffInDays = 0;
-  if(promo.end_date){
+  if (promo.end_date) {
     const startDateTimestamp = promo.start_date.getTime();
     const startDate = new Date(startDateTimestamp);
     const endDateTimestamp = promo.end_date.getTime();
@@ -118,7 +126,7 @@ export default function PromoProject() {
   const [validationError, setValidationError] = useState({})
   const ref = useRef();
   const savePromo = async () => {
-    if(diffInDays === 0) return false;
+    if (diffInDays === 0) return false;
     const formData = new FormData()
     formData.append("calendar_id", router.query.calendar_id);
     formData.append("total_price", totalPrice);
@@ -158,7 +166,6 @@ export default function PromoProject() {
     setPreviewImgUrl(placeholderImage);
     ref.current.value = "";
   }
-  const adaAddress = "addr1vxa3j0q6u5a93sjx7e0d5g2rfm7xaut4jlyhly0ws9jljzq6jnaaj";
   const pixel = 380;
   const guidelines = [
     "Only send ADA.",
@@ -168,7 +175,7 @@ export default function PromoProject() {
   //copied
   const [copied, setCopied] = useState(false);
   const manageCopied = () => {
-    navigator.clipboard.writeText(adaAddress);
+    navigator.clipboard.writeText(walletAddress);
     setCopied(true);
   }
   const renderTooltip = (props) => (
@@ -225,7 +232,7 @@ export default function PromoProject() {
                     <h3>Select an available advertising period</h3>
                     <div className={sectionStyle.dateRangePicker}>
                       <Row>
-                        <Col sm={12} md={{span:6, offset:3}}>
+                        <Col sm={12} md={{ span: 6, offset: 3 }}>
                           <h4 className={pageStyle.fw800}>
                             {getYmdDate(promo.start_date)} ~ {promo.end_date && getYmdDate(promo.end_date)}
                           </h4>
@@ -299,7 +306,7 @@ export default function PromoProject() {
           <div className="container-fluid">
             <div className="row">
               <div className="col-md-12 col-xl-5 mt-3 mb-5">
-                <div id={sectionStyle.qrCode} className="my-card item buyResult" style={{ backgroundImage: `url("https://chart.googleapis.com/chart?chs=${pixel}x${pixel}&cht=qr&chl=web+cardano:${adaAddress}?amount=${totalPrice}&choe=UTF-8")` }}></div>
+                <div id={sectionStyle.qrCode} className="my-card item buyResult" style={{ backgroundImage: `url("https://chart.googleapis.com/chart?chs=${pixel}x${pixel}&cht=qr&chl=web+cardano:${walletAddress}?amount=${totalPrice}&choe=UTF-8")` }}></div>
               </div>
               <div className="col-md-12 mt-3 col-xl-7">
                 <div className="buyResult">
@@ -312,7 +319,7 @@ export default function PromoProject() {
                       delay={{ show: 250, hide: 400 }}
                       overlay={renderTooltip}
                     >
-                      <textarea className="copyThis form-control" id="address" readonly="" onClick={() => manageCopied()}>{adaAddress}</textarea>
+                      <textarea className="copyThis form-control" id="address" readonly="" onClick={() => manageCopied()}>{walletAddress}</textarea>
                     </OverlayTrigger>
                   </div>
                   <div className="form-group text-start mb-4">
