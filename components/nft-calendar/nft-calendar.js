@@ -104,13 +104,6 @@ export default function NftCalendar(props) {
             <input type="text" className={sectionStyle.searchInput} value={keyword} placeholder="Search for title or description" onChange={(e) => setKeyword(e.target.value)} />
           </Col>
           <Col sm="4" xl="2">
-            {/* <select className={sectionStyle.sortDropdown} value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
-              {
-                sorts.map((sort) => {
-                  return <option value={sort} key={sort}>{sort}</option>
-                })
-              }
-            </select> */}
             <Select
               theme={(theme) => ({
                 ...theme,
